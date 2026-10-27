@@ -71,7 +71,7 @@ public class MultiCharacterController : MonoBehaviour
 
     // After a wall jump, wall sliding is disabled for this long
     // so the player doesn't instantly stick to the same wall.
-    [SerializeField] private float wallJumpLockTime = 0.15f;
+    [SerializeField] private float wallJumpLockTime = 0f;
 
     // --- Internal references (set automatically, no need to touch) ---
     private Rigidbody2D rb;
@@ -87,7 +87,7 @@ public class MultiCharacterController : MonoBehaviour
 
     // --- Timers ---
     private float coyoteTimer;
-    private float jumpBufferTimer;
+    [SerializeField] private float jumpBufferTimer;
     private float dashTimer;
     private float wallJumpLockTimer;
     private bool isDashing;
@@ -255,10 +255,11 @@ public class MultiCharacterController : MonoBehaviour
 
     // A jump away from a wall while wall sliding.
     private void DoWallJump()
+
     {
         rb.linearVelocity = new Vector2(-wallDir * current.wallJumpForceX, current.wallJumpForceY);
         jumpBufferTimer = 0f;
-        jumpsLeft = current.maxJumps - 1;
+        jumpsLeft = current.maxJumps + 1;
         isWallSliding = false;
         wallJumpLockTimer = wallJumpLockTime;
     }
@@ -272,17 +273,17 @@ public class MultiCharacterController : MonoBehaviour
 
         if (!current.canWallJump || grounded || wallJumpLockTimer > 0f) return;
 
-        int dir = 0;
-        if (moveInput > 0.1f) dir = 1;
-        else if (moveInput < -0.1f) dir = -1;
-        else return;
+        //int dir = 0;
 
-        if (rb.linearVelocity.y > 0f) return;
-
-        if (IsTouchingWall(dir))
+        if (IsTouchingWall(1) && rb.linearVelocity.y <= 0f)
         {
             isWallSliding = true;
-            wallDir = dir;
+            wallDir = 1;
+        }
+        else if (IsTouchingWall(-1) && rb.linearVelocity.y <= 0f)
+        {
+            isWallSliding = true;
+            wallDir = -1;
         }
     }
 

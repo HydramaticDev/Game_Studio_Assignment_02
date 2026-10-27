@@ -8,7 +8,7 @@ public class Thief : CharacterClass
         displayName = "Thief";
         moveSpeed = 7.5f;
         jumpForce = 12f;
-        maxJumps = 2;
+        maxJumps = 99;
         canWallJump = true;
         wallJumpForceX = 9f;
         wallJumpForceY = 12f;

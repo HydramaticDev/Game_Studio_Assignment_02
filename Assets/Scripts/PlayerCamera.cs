@@ -40,7 +40,7 @@ public class PlayerCamera : MonoBehaviour
     public bool enableRoomFailsafe = true;
 
     // How long the player has to be in the "wrong" room before the failsafe kicks in.
-    public float failsafeDelay = 1f;
+    public float failsafeDelay = 0.5f;
 
     [Header("Camera")]
     // The Camera component on this GameObject.
